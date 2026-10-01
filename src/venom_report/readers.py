@@ -92,7 +92,6 @@ class Testcase:
     skip_reason: str = ""
     systemout: str = ""
     steps: list[Step] = field(default_factory=list)
-    expected: dict[str, Any] | None = None
 
 
 @dataclass

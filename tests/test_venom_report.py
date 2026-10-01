@@ -119,19 +119,6 @@ def test_no_dumps_falls_back_on_junit(tmp_path: Path) -> None:
     assert (step["n"], step["status"], step["hasDump"]) == (2, "fail", False)
 
 
-def test_expected_reds(tmp_path: Path) -> None:
-    pytest.importorskip("yaml")
-    reds = tmp_path / "reds.yaml"
-    reds.write_text(
-        "expected_reds:\n"
-        "  - testcase: TC2 exec fails\n    suite: suite_a.yml\n    divergence: D1\n    why: known\n"
-        "  - testcase: TC5 loop\n    suite: other.yml\n"
-    )
-    t = tcs(run(copy(tmp_path, "xml"), "--expected-reds", str(reds)))
-    assert t["TC2-exec-fails"]["expected"] == {"divergence": "D1", "why": "known"}
-    assert t["TC5-loop"]["expected"] is None  # other suite
-
-
 def test_newest_report_wins_for_the_same_suite(tmp_path: Path) -> None:
     out = copy(tmp_path, "xml")
     older = out / "test_results_tests_suite_a.xml"

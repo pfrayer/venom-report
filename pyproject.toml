@@ -21,9 +21,6 @@ classifiers = [
     "Topic :: Software Development :: Testing",
 ]
 
-[project.optional-dependencies]
-yaml = ["pyyaml"]
-
 [project.scripts]
 venom-report = "venom_report.cli:main"
 
@@ -32,7 +29,7 @@ Homepage = "https://github.com/pfrayer/venom-report"
 Issues = "https://github.com/pfrayer/venom-report/issues"
 
 [dependency-groups]
-dev = ["pytest", "pyyaml", "ruff"]
+dev = ["pytest", "ruff"]
 
 [tool.hatch.version]
 source = "vcs"

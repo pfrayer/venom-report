@@ -8,7 +8,7 @@
 :root {
   --bg: #f7f7f5; --panel: #ffffff; --panel-2: #f1f1ee; --line: #e2e2dc; --text: #1d1d1b; --muted: #6b6b66;
   --pass: #1f7a3d; --pass-bg: #e3f3e8; --fail: #b3261e; --fail-bg: #fbe5e3; --skip: #8a6d00; --skip-bg: #fbf2d5;
-  --exp: #7a4bb3; --exp-bg: #efe6fa; --info: #2458a6; --info-bg: #e4ecf8; --code-key: #7a3e9d; --code-str: #1f6f5c; --code-num: #a6541b;
+  --info: #2458a6; --info-bg: #e4ecf8; --code-key: #7a3e9d; --code-str: #1f6f5c; --code-num: #a6541b;
   --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
   --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
@@ -16,13 +16,13 @@
   :root:not([data-theme="light"]) {
     --bg: #141413; --panel: #1c1c1a; --panel-2: #242421; --line: #33332f; --text: #e8e8e3; --muted: #9a9a93;
     --pass: #5cc781; --pass-bg: #19301f; --fail: #f07a70; --fail-bg: #3a1c19; --skip: #e0c050; --skip-bg: #332b12;
-    --exp: #b995ea; --exp-bg: #2a2038; --info: #86aef0; --info-bg: #1a2638; --code-key: #c79be6; --code-str: #7fd1b9; --code-num: #f0a36b;
+    --info: #86aef0; --info-bg: #1a2638; --code-key: #c79be6; --code-str: #7fd1b9; --code-num: #f0a36b;
   }
 }
 :root[data-theme="dark"] {
   --bg: #141413; --panel: #1c1c1a; --panel-2: #242421; --line: #33332f; --text: #e8e8e3; --muted: #9a9a93;
   --pass: #5cc781; --pass-bg: #19301f; --fail: #f07a70; --fail-bg: #3a1c19; --skip: #e0c050; --skip-bg: #332b12;
-  --exp: #b995ea; --exp-bg: #2a2038; --info: #86aef0; --info-bg: #1a2638; --code-key: #c79be6; --code-str: #7fd1b9; --code-num: #f0a36b;
+  --info: #86aef0; --info-bg: #1a2638; --code-key: #c79be6; --code-str: #7fd1b9; --code-num: #f0a36b;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.45 var(--sans); }
@@ -36,7 +36,7 @@ h1 { font-size: 20px; margin: 0; font-weight: 650; letter-spacing: -.01em; }
 .chip { border: 1px solid var(--line); background: var(--panel-2); border-radius: 999px; padding: 3px 10px; font-size: 13px; white-space: nowrap; }
 .chip b { font-variant-numeric: tabular-nums; }
 .chip[aria-pressed="true"] { outline: 2px solid var(--info); outline-offset: -1px; }
-.chip.pass b { color: var(--pass); } .chip.fail b { color: var(--fail); } .chip.skip b { color: var(--skip); } .chip.exp b { color: var(--exp); }
+.chip.pass b { color: var(--pass); } .chip.fail b { color: var(--fail); } .chip.skip b { color: var(--skip); }
 .bar { display: flex; gap: 8px; margin-top: 8px; align-items: center; }
 .bar input { flex: 1; min-width: 0; padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--text); font: inherit; }
 .bar button, .btn { border: 1px solid var(--line); background: var(--panel-2); border-radius: 6px; padding: 5px 10px; font-size: 13px; }
@@ -68,11 +68,11 @@ details.tc[open] > summary { border-bottom: 1px solid var(--line); }
 .dur { color: var(--muted); font: 12px var(--mono); white-space: nowrap; }
 .badge { font: 600 11px var(--mono); padding: 1px 6px; border-radius: 4px; white-space: nowrap; text-transform: uppercase; }
 .b-pass { color: var(--pass); background: var(--pass-bg); } .b-fail { color: var(--fail); background: var(--fail-bg); }
-.b-skip { color: var(--skip); background: var(--skip-bg); } .b-exp { color: var(--exp); background: var(--exp-bg); }
+.b-skip { color: var(--skip); background: var(--skip-bg); }
 .b-info { color: var(--info); background: var(--info-bg); }
 .tcbody { padding: 10px 12px 12px 30px; }
 .msg { font: 12.5px/1.45 var(--mono); white-space: pre-wrap; overflow-wrap: anywhere; padding: 8px 10px; border-radius: 6px; margin: 0 0 8px; }
-.msg.fail { background: var(--fail-bg); color: var(--fail); } .msg.skip { background: var(--skip-bg); color: var(--skip); } .msg.exp { background: var(--exp-bg); color: var(--exp); }
+.msg.fail { background: var(--fail-bg); color: var(--fail); } .msg.skip { background: var(--skip-bg); color: var(--skip); }
 .step { border: 1px solid var(--line); border-radius: 6px; margin: 8px 0; overflow: hidden; }
 .step.fail { border-color: var(--fail); }
 .step-h { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; padding: 6px 10px; background: var(--panel-2); font: 12.5px var(--mono); }
@@ -142,7 +142,6 @@ const all = [];
 DATA.suites.forEach((s, si) => s.testcases.forEach((tc, ti) => {
   tc.id = `${s.file || s.name}/${tc.name}`;
   tc.si = si; tc.ti = ti;
-  tc.kind = tc.status === "fail" ? (tc.expected ? "exp" : "fail") : tc.status;
   all.push(tc);
 }));
 const hay = (tc) => tc._hay ??= [
@@ -156,10 +155,9 @@ const maxEnd = Math.max(...DATA.suites.map((s) => s.end));
 const minStart = Math.min(...DATA.suites.map((s) => s.end - s.time));
 $("#title").textContent = DATA.meta.title;
 $("#meta").textContent = `run ${fmtDate(minStart)} → ${fmtDate(maxEnd)} · ${DATA.meta.outputDir}`;
-const count = (list, k) => list.filter((tc) => k === "red" ? tc.status === "fail" : tc.kind === k).length;
+const count = (list, k) => list.filter((tc) => tc.status === k).length;
 function renderChips() {
-  const defs = [["all", "all", all.length], ["pass", "passed", count(all, "pass")], ["fail", DATA.meta.expectedReds ? "regressions" : "failed", count(all, "fail")]];
-  if (DATA.meta.expectedReds) defs.push(["exp", "expected reds", count(all, "exp")]);
+  const defs = [["all", "all", all.length], ["pass", "passed", count(all, "pass")], ["fail", "failed", count(all, "fail")]];
   defs.push(["skip", "skipped", count(all, "skip")]);
   $("#chips").innerHTML = defs.map(([k, label, n]) =>
     `<button class="chip ${k}" data-k="${k}" aria-pressed="${state.status === k}"><b>${n}</b> ${label}</button>`).join("");
@@ -172,7 +170,7 @@ $("#chips").addEventListener("click", (e) => {
 // ---------------------------------------------------------------- nav
 function renderNav() {
   const btn = (i, name, list) => {
-    const f = count(list, "red"), p = count(list, "pass"), s = count(list, "skip");
+    const f = count(list, "fail"), p = count(list, "pass"), s = count(list, "skip");
     return `<button data-si="${i}" aria-current="${state.suite === i}" title="${esc(name)}"><span class="nm">${esc(name).replace(/\//g, "/<wbr>")}</span>
       <span class="ct">${f ? `<span class="f">${f}✗</span> ` : ""}<span class="p">${p}</span>${s ? ` <span class="s">${s}⤼</span>` : ""}</span></button>`;
   };
@@ -187,22 +185,21 @@ $("#nav").addEventListener("click", (e) => {
 // ---------------------------------------------------------------- main
 const visible = (tc) =>
   (state.suite === null || tc.si === state.suite) &&
-  (state.status === "all" || tc.kind === state.status) &&
+  (state.status === "all" || tc.status === state.status) &&
   (!state.q || hay(tc).includes(state.q));
 
 function tcBadge(tc) {
-  if (tc.kind === "exp") return `<span class="badge b-exp" title="expected red">exp</span>`;
   return `<span class="badge b-${tc.status}">${tc.status}</span>`;
 }
 
 function render() {
   renderChips(); renderNav();
   const shown = all.filter(visible);
-  const reds = shown.filter((tc) => tc.kind === "fail");
+  const reds = shown.filter((tc) => tc.status === "fail");
   let html = "";
   if (!DATA.meta.dumps) html += `<div class="banner">No step dumps found: only the JUnit summary is shown. Rerun venom with <code>-vvv</code> (or <code>verbosity: 3</code> in .venomrc) to see each HTTP call.</div>`;
   if (reds.length) {
-    html += `<div class="reds"><h2>${reds.length} ${DATA.meta.expectedReds ? "regression" : "failure"}${reds.length > 1 ? "s" : ""}</h2><ul>` +
+    html += `<div class="reds"><h2>${reds.length} failure${reds.length > 1 ? "s" : ""}</h2><ul>` +
       reds.map((tc) => `<li><a href="#${encodeURIComponent(tc.id)}">${esc(DATA.suites[tc.si].file)} › ${esc(tc.name)}</a></li>`).join("") + `</ul></div>`;
   }
   DATA.suites.forEach((s, si) => {
@@ -225,7 +222,6 @@ $("#main").addEventListener("toggle", (e) => {
 
 function tcBody(tc) {
   let h = `<div class="tcbody">`;
-  if (tc.expected) h += `<div class="msg exp">Expected red${tc.expected.divergence ? ` · ${esc(tc.expected.divergence)}` : ""}${tc.expected.why ? `\n${esc(tc.expected.why)}` : ""}</div>`;
   if (tc.skipReason) h += `<div class="msg skip">${esc(tc.skipReason)}</div>`;
   const stepErrors = new Set(tc.steps.flatMap((s) => s.errors));
   tc.messages.filter((m) => !stepErrors.has(m)).forEach((m) => { h += `<div class="msg fail">${esc(m)}</div>`; });
@@ -314,7 +310,7 @@ window.addEventListener("hashchange", openHash);
 
 render();
 // Reds open on load, so a failing run lands on what matters.
-document.querySelectorAll("details.tc").forEach((d) => { if (all[Number(d.dataset.i)].kind === "fail") d.open = true; });
+document.querySelectorAll("details.tc").forEach((d) => { if (all[Number(d.dataset.i)].status === "fail") d.open = true; });
 openHash();
 })();
 </script>

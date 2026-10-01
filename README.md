@@ -22,7 +22,10 @@ venom-report path/to/output        # -> path/to/output/report/index.html
 venom-report output --open         # and open it
 ```
 
-No dependency (Python ≥ 3.10); `pip install 'venom-report[yaml]'` adds PyYAML for `--expected-reds`. The page is one self-contained file that opens over `file://`.
+No dependency (Python ≥ 3.10). The page is one self-contained file that opens over `file://`.
+
+venom writes its reports only with `--output-dir` (or `output_dir:` in `.venomrc`): point
+`venom-report` at that directory.
 
 ## What it reads
 
@@ -45,14 +48,9 @@ the newest report wins.
 |---|---|---|
 | `-o FILE` | `OUTPUT_DIR/report/index.html` | where to write |
 | `--title T` | `venom · <parent dir>` | page title |
-| `--expected-reds FILE` | none | YAML list of reds that are known and accepted, shown apart from regressions (needs PyYAML) |
 | `--redact REGEX` | `authorization\|token\|secret\|passw(or)?d\|cookie\|api[-_]?key\|credential` | keys and headers whose values are masked |
 | `--max-body N` | `100000` | bodies longer than N chars are truncated |
 | `--open` | | open the report in a browser |
-
-`--expected-reds` accepts a list, or a mapping with an `expected_reds:` list, of entries
-`{testcase, suite?, divergence?, why?}` or bare testcase names. Names match loosely
-(`TC8 foo bar` = `TC8-foo-bar`).
 
 ## Secrets
 

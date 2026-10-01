@@ -1,6 +1,6 @@
 """Turn a venom output directory into a single static HTML report.
 
-    venom-report [OUTPUT_DIR] [-o index.html] [--expected-reds FILE]
+    venom-report [OUTPUT_DIR] [-o index.html]
 
 Reads what venom writes, whatever the suite:
   - test_results_*.xml (format: xml) or test_results_*.json (format: json)
@@ -14,7 +14,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import re
 import sys
 import webbrowser
 import xml.etree.ElementTree as ET
@@ -27,7 +26,6 @@ from . import __version__
 from .readers import (
     Redactor,
     Suite,
-    Testcase,
     attach_dumps,
     index_dumps,
     read_json,
@@ -37,38 +35,6 @@ from .readers import (
 )
 
 DEFAULT_REDACT = r"authorization|token|secret|passw(or)?d|cookie|api[-_]?key|credential"
-
-
-# --------------------------------------------------------------------------- expected reds
-
-
-def load_expected(path: Path | None) -> list[dict[str, Any]]:
-    if not path:
-        return []
-    try:
-        import yaml  # type: ignore[import-untyped]
-    except ImportError:
-        print("warning: PyYAML missing, --expected-reds ignored", file=sys.stderr)
-        return []
-    doc = yaml.safe_load(path.read_text()) or {}
-    entries = doc.get("expected_reds", []) if isinstance(doc, dict) else doc
-    return [e if isinstance(e, dict) else {"testcase": str(e)} for e in entries or []]
-
-
-def _norm(s: str) -> str:
-    return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
-
-
-def match_expected(suite: Suite, tc: Testcase, entries: list[dict[str, Any]]) -> dict[str, Any] | None:
-    for e in entries:
-        if e.get("suite") and Path(str(e["suite"])).name not in (
-            Path(suite.file).name,
-            suite.stem,
-        ):
-            continue
-        if _norm(str(e.get("testcase") or e.get("class") or "")) == _norm(tc.name):
-            return {k: e[k] for k in ("divergence", "why") if k in e}
-    return None
 
 
 # --------------------------------------------------------------------------- output
@@ -120,7 +86,6 @@ def serialize(suites: list[Suite], redactor: Redactor, max_body: int) -> list[di
                     "skipReason": redactor.text(tc.skip_reason),
                     "systemout": _truncate(redactor.text(tc.systemout), max_body),
                     "steps": steps,
-                    "expected": tc.expected,
                 }
             )
         out.append(
@@ -138,7 +103,6 @@ def serialize(suites: list[Suite], redactor: Redactor, max_body: int) -> list[di
 
 def build(
     out_dir: Path,
-    expected_path: Path | None,
     redact: str,
     max_body: int,
     title: str | None,
@@ -156,22 +120,18 @@ def build(
             if key not in suites or s.end > suites[key].end:
                 suites[key] = s
     idx = index_dumps(out_dir)
-    entries = load_expected(expected_path)
     dumps = 0
     run_windows(list(suites.values()))
     for s in suites.values():
         dumps += attach_dumps(s, idx, redactor)
         for tc in s.testcases:
             resolve_statuses(tc)
-            if tc.status == "fail":
-                tc.expected = match_expected(s, tc, entries)
     ordered = sorted(suites.values(), key=lambda s: s.file or s.name)
     meta = {
         "title": title or f"venom · {out_dir.resolve().parent.name}",
         "outputDir": str(out_dir.resolve()),
         "generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "dumps": dumps,
-        "expectedReds": bool(entries),
     }
     data = {"meta": meta, "suites": serialize(ordered, redactor, max_body)}
     payload = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")
@@ -205,11 +165,6 @@ def main(argv: list[str] | None = None) -> int:
     )
     ap.add_argument("--title", help="page title")
     ap.add_argument(
-        "--expected-reds",
-        type=Path,
-        help="YAML list of reds known to be expected (needs PyYAML)",
-    )
-    ap.add_argument(
         "--redact",
         default=DEFAULT_REDACT,
         help=f"regex of sensitive keys (default: {DEFAULT_REDACT})",
@@ -226,7 +181,7 @@ def main(argv: list[str] | None = None) -> int:
     if not args.output_dir.is_dir():
         print(f"error: {args.output_dir} is not a directory", file=sys.stderr)
         return 2
-    html, data = build(args.output_dir, args.expected_reds, args.redact, args.max_body, args.title)
+    html, data = build(args.output_dir, args.redact, args.max_body, args.title)
     if not data["suites"]:
         print(f"error: no test_results_*.xml|json in {args.output_dir}", file=sys.stderr)
         return 2
