@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<style>
+:root {
+  --bg: #f7f7f5; --panel: #ffffff; --panel-2: #f1f1ee; --line: #e2e2dc; --text: #1d1d1b; --muted: #6b6b66;
+  --pass: #1f7a3d; --pass-bg: #e3f3e8; --fail: #b3261e; --fail-bg: #fbe5e3; --skip: #8a6d00; --skip-bg: #fbf2d5;
+  --exp: #7a4bb3; --exp-bg: #efe6fa; --info: #2458a6; --info-bg: #e4ecf8; --code-key: #7a3e9d; --code-str: #1f6f5c; --code-num: #a6541b;
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141413; --panel: #1c1c1a; --panel-2: #242421; --line: #33332f; --text: #e8e8e3; --muted: #9a9a93;
+    --pass: #5cc781; --pass-bg: #19301f; --fail: #f07a70; --fail-bg: #3a1c19; --skip: #e0c050; --skip-bg: #332b12;
+    --exp: #b995ea; --exp-bg: #2a2038; --info: #86aef0; --info-bg: #1a2638; --code-key: #c79be6; --code-str: #7fd1b9; --code-num: #f0a36b;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141413; --panel: #1c1c1a; --panel-2: #242421; --line: #33332f; --text: #e8e8e3; --muted: #9a9a93;
+  --pass: #5cc781; --pass-bg: #19301f; --fail: #f07a70; --fail-bg: #3a1c19; --skip: #e0c050; --skip-bg: #332b12;
+  --exp: #b995ea; --exp-bg: #2a2038; --info: #86aef0; --info-bg: #1a2638; --code-key: #c79be6; --code-str: #7fd1b9; --code-num: #f0a36b;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.45 var(--sans); }
+a { color: var(--info); }
+button { font: inherit; color: inherit; cursor: pointer; }
+header { position: sticky; top: 0; z-index: 5; background: var(--panel); border-bottom: 1px solid var(--line); padding: 10px 16px; }
+.top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+h1 { font-size: 20px; margin: 0; font-weight: 650; letter-spacing: -.01em; }
+.meta { color: var(--muted); font-size: 12px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-left: auto; }
+.chip { border: 1px solid var(--line); background: var(--panel-2); border-radius: 999px; padding: 3px 10px; font-size: 13px; white-space: nowrap; }
+.chip b { font-variant-numeric: tabular-nums; }
+.chip[aria-pressed="true"] { outline: 2px solid var(--info); outline-offset: -1px; }
+.chip.pass b { color: var(--pass); } .chip.fail b { color: var(--fail); } .chip.skip b { color: var(--skip); } .chip.exp b { color: var(--exp); }
+.bar { display: flex; gap: 8px; margin-top: 8px; align-items: center; }
+.bar input { flex: 1; min-width: 0; padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--text); font: inherit; }
+.bar button, .btn { border: 1px solid var(--line); background: var(--panel-2); border-radius: 6px; padding: 5px 10px; font-size: 13px; }
+.layout { display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 16px; padding: 16px; max-width: 1600px; margin: 0 auto; }
+nav { position: sticky; top: 108px; align-self: start; max-height: calc(100vh - 124px); overflow: auto; }
+nav button { display: flex; width: 100%; gap: 8px; align-items: baseline; text-align: left; border: 0; background: none; padding: 6px 8px; border-radius: 6px; }
+nav button:hover { background: var(--panel-2); }
+nav button[aria-current="true"] { background: var(--info-bg); }
+nav .nm { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+nav .ct { font: 12px var(--mono); white-space: nowrap; }
+.ct .f { color: var(--fail); } .ct .p { color: var(--pass); } .ct .s { color: var(--skip); }
+.banner { border: 1px solid var(--skip); background: var(--skip-bg); padding: 10px 12px; border-radius: 6px; margin-bottom: 12px; }
+.reds { border: 1px solid var(--fail); background: var(--fail-bg); padding: 10px 12px; border-radius: 6px; margin-bottom: 16px; }
+.reds h2 { font-size: 13px; margin: 0 0 6px; }
+.reds ul { margin: 0; padding-left: 18px; }
+.reds li { margin: 2px 0; }
+section.suite { margin-bottom: 20px; }
+.suite-h { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; margin: 0 0 6px; }
+.suite-h h2 { font-size: 16px; margin: 0; }
+.suite-h .meta { font-family: var(--mono); }
+.stale { color: var(--skip); font-size: 12px; }
+details.tc { scroll-margin-top: 120px; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; margin-bottom: 4px; }
+details.tc > summary { list-style: none; display: flex; gap: 10px; align-items: baseline; padding: 7px 10px; cursor: pointer; }
+details.tc > summary::-webkit-details-marker { display: none; }
+details.tc > summary::before { content: "▸"; color: var(--muted); width: 10px; flex: none; }
+details.tc[open] > summary::before { content: "▾"; }
+details.tc[open] > summary { border-bottom: 1px solid var(--line); }
+.tcname { flex: 1; min-width: 0; overflow-wrap: anywhere; font-family: var(--mono); font-size: 13px; }
+.dur { color: var(--muted); font: 12px var(--mono); white-space: nowrap; }
+.badge { font: 600 11px var(--mono); padding: 1px 6px; border-radius: 4px; white-space: nowrap; text-transform: uppercase; }
+.b-pass { color: var(--pass); background: var(--pass-bg); } .b-fail { color: var(--fail); background: var(--fail-bg); }
+.b-skip { color: var(--skip); background: var(--skip-bg); } .b-exp { color: var(--exp); background: var(--exp-bg); }
+.b-info { color: var(--info); background: var(--info-bg); }
+.tcbody { padding: 10px 12px 12px 30px; }
+.msg { font: 12.5px/1.45 var(--mono); white-space: pre-wrap; overflow-wrap: anywhere; padding: 8px 10px; border-radius: 6px; margin: 0 0 8px; }
+.msg.fail { background: var(--fail-bg); color: var(--fail); } .msg.skip { background: var(--skip-bg); color: var(--skip); } .msg.exp { background: var(--exp-bg); color: var(--exp); }
+.step { border: 1px solid var(--line); border-radius: 6px; margin: 8px 0; overflow: hidden; }
+.step.fail { border-color: var(--fail); }
+.step-h { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; padding: 6px 10px; background: var(--panel-2); font: 12.5px var(--mono); }
+.step-h .url { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.method { font-weight: 700; }
+.code { font-weight: 700; padding: 0 6px; border-radius: 4px; }
+.c2 { color: var(--pass); background: var(--pass-bg); } .c3 { color: var(--info); background: var(--info-bg); }
+.c4 { color: var(--skip); background: var(--skip-bg); } .c5 { color: var(--fail); background: var(--fail-bg); }
+.step-b { padding: 8px 10px; display: grid; gap: 8px; }
+.cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.pane h4 { margin: 0 0 4px; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); display: flex; gap: 8px; align-items: center; }
+.pane h4 .btn { padding: 0 6px; font-size: 11px; text-transform: none; letter-spacing: 0; }
+pre { margin: 0; font: 12px/1.45 var(--mono); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; overflow: auto; max-height: 420px; white-space: pre-wrap; overflow-wrap: anywhere; }
+pre.hdr { max-height: 180px; }
+.k { color: var(--code-key); } .s { color: var(--code-str); } .n { color: var(--code-num); }
+ul.asserts { list-style: none; margin: 0; padding: 0; font: 12px var(--mono); }
+ul.asserts li { padding: 2px 0; overflow-wrap: anywhere; }
+ul.asserts li::before { display: inline-block; width: 18px; }
+ul.asserts .ok::before { content: "✓"; color: var(--pass); }
+ul.asserts .unk::before { content: "·"; color: var(--muted); }
+ul.asserts .ko { color: var(--fail); font-weight: 600; } ul.asserts .ko::before { content: "✗"; }
+details.raw > summary { cursor: pointer; color: var(--muted); font-size: 12px; }
+.empty { color: var(--muted); padding: 24px; text-align: center; }
+.hidden { display: none !important; }
+@media (max-width: 900px) {
+  .layout { grid-template-columns: minmax(0, 1fr); }
+  nav { position: static; max-height: none; display: flex; overflow-x: auto; gap: 4px; }
+  nav button { width: auto; flex: none; }
+  .cols { grid-template-columns: minmax(0, 1fr); }
+  .chips { margin-left: 0; }
+  .tcbody { padding-left: 12px; }
+  .bar { flex-wrap: wrap; }
+  .bar input { flex-basis: 100%; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <div><h1 id="title"></h1><div class="meta" id="meta"></div></div>
+    <div class="chips" id="chips"></div>
+  </div>
+  <div class="bar">
+    <input id="q" type="search" placeholder="Search testcase, URL, status code, error, body…  ( / )" autocomplete="off">
+    <button id="expand" type="button">Open reds</button>
+    <button id="collapse" type="button">Collapse all</button>
+    <button id="theme" type="button" title="Theme">◐</button>
+  </div>
+</header>
+<div class="layout">
+  <nav id="nav" aria-label="Suites"></nav>
+  <main id="main"></main>
+</div>
+<script type="application/json" id="data">/*__DATA__*/</script>
+<script>
+(() => {
+"use strict";
+const DATA = JSON.parse(document.getElementById("data").textContent);
+const $ = (s, el = document) => el.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const fmtDur = (t) => (t == null ? "" : t < 1 ? `${Math.round(t * 1000)} ms` : `${t.toFixed(t < 10 ? 2 : 1)} s`);
+const fmtDate = (epoch) => new Date(epoch * 1000).toLocaleString();
+const state = { suite: null, status: "all", q: "" };
+
+// Flatten, keep a stable id and a lazily-built search haystack per testcase.
+const all = [];
+DATA.suites.forEach((s, si) => s.testcases.forEach((tc, ti) => {
+  tc.id = `${s.file || s.name}/${tc.name}`;
+  tc.si = si; tc.ti = ti;
+  tc.kind = tc.status === "fail" ? (tc.expected ? "exp" : "fail") : tc.status;
+  all.push(tc);
+}));
+const hay = (tc) => tc._hay ??= [
+  tc.name, DATA.suites[tc.si].file, tc.messages.join(" "), tc.skipReason, tc.systemout,
+  ...tc.steps.flatMap((st) => [st.name, st.type, st.errors.join(" "), st.systemout,
+    st.http ? `${st.http.method} ${st.http.url} ${st.http.status} ${st.http.reqBody} ${st.http.respBody}` : ""]),
+].join("\n").toLowerCase();
+
+// ---------------------------------------------------------------- header
+const maxEnd = Math.max(...DATA.suites.map((s) => s.end));
+const minStart = Math.min(...DATA.suites.map((s) => s.end - s.time));
+$("#title").textContent = DATA.meta.title;
+$("#meta").textContent = `run ${fmtDate(minStart)} → ${fmtDate(maxEnd)} · ${DATA.meta.outputDir}`;
+const count = (list, k) => list.filter((tc) => k === "red" ? tc.status === "fail" : tc.kind === k).length;
+function renderChips() {
+  const defs = [["all", "all", all.length], ["pass", "passed", count(all, "pass")], ["fail", DATA.meta.expectedReds ? "regressions" : "failed", count(all, "fail")]];
+  if (DATA.meta.expectedReds) defs.push(["exp", "expected reds", count(all, "exp")]);
+  defs.push(["skip", "skipped", count(all, "skip")]);
+  $("#chips").innerHTML = defs.map(([k, label, n]) =>
+    `<button class="chip ${k}" data-k="${k}" aria-pressed="${state.status === k}"><b>${n}</b> ${label}</button>`).join("");
+}
+$("#chips").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-k]"); if (!b) return;
+  state.status = state.status === b.dataset.k ? "all" : b.dataset.k; render();
+});
+
+// ---------------------------------------------------------------- nav
+function renderNav() {
+  const btn = (i, name, list) => {
+    const f = count(list, "red"), p = count(list, "pass"), s = count(list, "skip");
+    return `<button data-si="${i}" aria-current="${state.suite === i}" title="${esc(name)}"><span class="nm">${esc(name).replace(/\//g, "/<wbr>")}</span>
+      <span class="ct">${f ? `<span class="f">${f}✗</span> ` : ""}<span class="p">${p}</span>${s ? ` <span class="s">${s}⤼</span>` : ""}</span></button>`;
+  };
+  $("#nav").innerHTML = btn("", "All suites", all) +
+    DATA.suites.map((s, i) => btn(i, s.file || s.name, s.testcases)).join("");
+}
+$("#nav").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-si]"); if (!b) return;
+  state.suite = b.dataset.si === "" ? null : Number(b.dataset.si); render(); window.scrollTo(0, 0);
+});
+
+// ---------------------------------------------------------------- main
+const visible = (tc) =>
+  (state.suite === null || tc.si === state.suite) &&
+  (state.status === "all" || tc.kind === state.status) &&
+  (!state.q || hay(tc).includes(state.q));
+
+function tcBadge(tc) {
+  if (tc.kind === "exp") return `<span class="badge b-exp" title="expected red">exp</span>`;
+  return `<span class="badge b-${tc.status}">${tc.status}</span>`;
+}
+
+function render() {
+  renderChips(); renderNav();
+  const shown = all.filter(visible);
+  const reds = shown.filter((tc) => tc.kind === "fail");
+  let html = "";
+  if (!DATA.meta.dumps) html += `<div class="banner">No step dumps found: only the JUnit summary is shown. Rerun venom with <code>-vvv</code> (or <code>verbosity: 3</code> in .venomrc) to see each HTTP call.</div>`;
+  if (reds.length) {
+    html += `<div class="reds"><h2>${reds.length} ${DATA.meta.expectedReds ? "regression" : "failure"}${reds.length > 1 ? "s" : ""}</h2><ul>` +
+      reds.map((tc) => `<li><a href="#${encodeURIComponent(tc.id)}">${esc(DATA.suites[tc.si].file)} › ${esc(tc.name)}</a></li>`).join("") + `</ul></div>`;
+  }
+  DATA.suites.forEach((s, si) => {
+    const tcs = shown.filter((tc) => tc.si === si);
+    if (!tcs.length) return;
+    const stale = maxEnd - s.end > 3600 ? `<span class="stale">⚠ older run (${fmtDate(s.end)})</span>` : "";
+    html += `<section class="suite"><div class="suite-h"><h2>${esc(s.name)}</h2><span class="meta">${esc(s.file)} · ${fmtDur(s.time)} · ${esc(s.source)}</span>${stale}</div>` +
+      tcs.map((tc) => `<details class="tc" id="${esc(tc.id)}" data-i="${all.indexOf(tc)}"><summary>${tcBadge(tc)}<span class="tcname">${esc(tc.name)}</span>` +
+        `<span class="dur">${tc.steps.length ? `${tc.steps.length} step${tc.steps.length > 1 ? "s" : ""} · ` : ""}${fmtDur(tc.time)}</span></summary></details>`).join("") + `</section>`;
+  });
+  $("#main").innerHTML = html || `<div class="empty">Nothing matches.</div>`;
+}
+
+$("#main").addEventListener("toggle", (e) => {
+  const d = e.target;
+  if (!d.matches || !d.matches("details.tc") || !d.open || d.dataset.built) return;
+  d.dataset.built = "1";
+  d.insertAdjacentHTML("beforeend", tcBody(all[Number(d.dataset.i)]));
+}, true);
+
+function tcBody(tc) {
+  let h = `<div class="tcbody">`;
+  if (tc.expected) h += `<div class="msg exp">Expected red${tc.expected.divergence ? ` · ${esc(tc.expected.divergence)}` : ""}${tc.expected.why ? `\n${esc(tc.expected.why)}` : ""}</div>`;
+  if (tc.skipReason) h += `<div class="msg skip">${esc(tc.skipReason)}</div>`;
+  const stepErrors = new Set(tc.steps.flatMap((s) => s.errors));
+  tc.messages.filter((m) => !stepErrors.has(m)).forEach((m) => { h += `<div class="msg fail">${esc(m)}</div>`; });
+  if (!tc.steps.some((s) => s.hasDump || s.http) && tc.systemout) h += `<div class="pane"><h4>system-out</h4><pre>${esc(tc.systemout)}</pre></div>`;
+  tc.steps.forEach((st) => { h += stepHtml(tc, st); });
+  if (!tc.steps.length && tc.status !== "skip" && !tc.systemout) h += `<div class="meta">No step detail recorded.</div>`;
+  return h + `</div>`;
+}
+
+function stepHtml(tc, st) {
+  const x = st.http;
+  const label = `#${st.n}${st.r ? `.${st.r}` : ""}`;
+  let head = `<span class="badge ${st.status === "fail" ? "b-fail" : "b-info"}">${label}</span><span class="badge b-info">${esc(st.type || "?")}</span>`;
+  if (x) {
+    const c = x.status ? `c${String(x.status)[0]}` : "";
+    head += `<span class="method">${esc(x.method)}</span><span class="url">${esc(x.url)}</span>` +
+      (x.status ? `<span class="code ${c}">${esc(x.status)}</span>` : "") + `<span class="dur">${fmtDur(x.time)}</span>`;
+  } else {
+    head += `<span class="url">${esc(st.name && st.name !== st.type ? st.name : "")}</span>`;
+  }
+  let body = "";
+  st.errors.forEach((e) => { body += `<div class="msg fail">${esc(e)}</div>`; });
+  if (x) {
+    body += `<div class="cols">
+      <div class="pane"><h4>Request <button class="btn" data-curl>copy curl</button></h4>${hdrs(x.reqHeaders)}${x.reqBody ? `<pre>${code(x.reqBody)}</pre>` : ""}</div>
+      <div class="pane"><h4>Response</h4>${hdrs(x.respHeaders)}${x.respBody ? `<pre>${code(x.respBody)}</pre>` : ""}</div></div>`;
+  } else {
+    if (st.systemout) body += `<div class="pane"><h4>systemout</h4><pre>${esc(st.systemout)}</pre></div>`;
+    if (st.systemerr) body += `<div class="pane"><h4>systemerr</h4><pre>${esc(st.systemerr)}</pre></div>`;
+  }
+  if (st.assertions.length) {
+    body += `<div class="pane"><h4>Assertions</h4><ul class="asserts">` +
+      st.assertions.map((a) => `<li class="${a.ok === false ? "ko" : a.ok ? "ok" : "unk"}">${esc(a.text)}</li>`).join("") + `</ul></div>`;
+  }
+  if (st.raw) body += `<details class="raw"><summary>step definition &amp; raw result</summary><pre>${esc(st.raw)}</pre></details>`;
+  if (!st.hasDump && !x && !st.raw) body += `<div class="meta">No dump for this step (it errored before producing a result, or venom did not run with -vvv).</div>`;
+  return `<div class="step ${st.status === "fail" ? "fail" : ""}" data-n="${tc.steps.indexOf(st)}"><div class="step-h">${head}</div><div class="step-b">${body}</div></div>`;
+}
+
+function hdrs(h) {
+  const entries = Object.entries(h || {}).filter(([k]) => !k.startsWith("__"));
+  if (!entries.length) return "";
+  return `<pre class="hdr">${entries.map(([k, v]) => `<span class="k">${esc(k)}</span>: ${esc(Array.isArray(v) ? v.join(", ") : v)}`).join("\n")}</pre>`;
+}
+
+function code(s) {
+  const t = esc(s);
+  if (t.length > 200000 || !/^\s*[[{]/.test(s)) return t;
+  return t.replace(/(&quot;(?:[^&]|&(?!quot;))*?&quot;)(\s*:)?|\b(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?|true|false|null)\b/g,
+    (m, str, colon, num) => str ? `<span class="${colon ? "k" : "s"}">${str}</span>${colon || ""}` : `<span class="n">${num}</span>`);
+}
+
+const sq = (s) => `'${String(s).replace(/'/g, `'\\''`)}'`;
+$("#main").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-curl]"); if (!b) return;
+  const tc = all[Number(b.closest("details.tc").dataset.i)];
+  const x = tc.steps[Number(b.closest(".step").dataset.n)].http;
+  const parts = [`curl -X ${x.method}`, sq(x.url)];
+  Object.entries(x.reqHeaders || {}).forEach(([k, v]) => { if (!k.startsWith("__")) parts.push(`-H ${sq(`${k}: ${v}`)}`); });
+  if (x.reqBody) parts.push(`--data-raw ${sq(x.reqBody)}`);
+  navigator.clipboard?.writeText(parts.join(" \\\n  ")).then(() => { b.textContent = "copied"; setTimeout(() => { b.textContent = "copy curl"; }, 1200); });
+});
+
+// ---------------------------------------------------------------- toolbar, deep links
+let timer;
+$("#q").addEventListener("input", (e) => { clearTimeout(timer); timer = setTimeout(() => { state.q = e.target.value.trim().toLowerCase(); render(); }, 150); });
+document.addEventListener("keydown", (e) => { if (e.key === "/" && document.activeElement !== $("#q")) { e.preventDefault(); $("#q").focus(); } });
+$("#expand").addEventListener("click", () => document.querySelectorAll("details.tc").forEach((d) => { if (all[Number(d.dataset.i)].status === "fail") d.open = true; }));
+$("#collapse").addEventListener("click", () => document.querySelectorAll("details.tc[open]").forEach((d) => { d.open = false; }));
+$("#theme").addEventListener("click", () => {
+  const dark = matchMedia("(prefers-color-scheme: dark)").matches;
+  const cur = document.documentElement.dataset.theme || (dark ? "dark" : "light");
+  document.documentElement.dataset.theme = cur === "dark" ? "light" : "dark";
+  try { localStorage.setItem("venom-report-theme", document.documentElement.dataset.theme); } catch (_) { /* storage blocked */ }
+});
+try { const t = localStorage.getItem("venom-report-theme"); if (t) document.documentElement.dataset.theme = t; } catch (_) { /* storage blocked */ }
+
+function openHash() {
+  const id = decodeURIComponent(location.hash.slice(1));
+  if (!id) return;
+  let d = document.getElementById(id);
+  if (!d) { state.suite = null; state.status = "all"; state.q = ""; $("#q").value = ""; render(); d = document.getElementById(id); }
+  if (d) { d.open = true; d.scrollIntoView({ block: "start" }); }
+}
+window.addEventListener("hashchange", openHash);
+
+render();
+// Reds open on load, so a failing run lands on what matters.
+document.querySelectorAll("details.tc").forEach((d) => { if (all[Number(d.dataset.i)].kind === "fail") d.open = true; });
+openHash();
+})();
+</script>
+</body>
+</html>

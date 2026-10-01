@@ -1,0 +1,35 @@
+{
+ "variables": {
+  "__Len__": "18",
+  "__Type__": "Map",
+  "auth.token": "Bearer SECRET123",
+  "venom.datetime": "2026-09-30T16:16:35+02:00",
+  "venom.executable": "/usr/local/bin/venom",
+  "venom.libdir": "",
+  "venom.outputdir": "fx_json",
+  "venom.testcase": "TC2-exec-fails",
+  "venom.testcase.totalSteps": "2",
+  "venom.teststep.number": "2",
+  "venom.testsuite": "probe suite A",
+  "venom.testsuite.filename": "suite_a.yml",
+  "venom.testsuite.filepath": "suite_a.yml",
+  "venom.testsuite.name": "probe suite A",
+  "venom.testsuite.shortName": "suite_a",
+  "venom.testsuite.totalSteps": "6",
+  "venom.testsuite.workdir": "/work",
+  "venom.timestamp": "1790777795"
+ },
+ "step": {
+  "assertions": [
+   "result.systemout ShouldEqual three",
+   "result.code ShouldEqual 0"
+  ],
+  "script": "echo two",
+  "type": "exec"
+ },
+ "result": {
+  "systemout": "two",
+  "code": "0",
+  "timeseconds": 0.002452955
+ }
+}

@@ -1,0 +1,666 @@
+{
+  "test_suites": [
+    {
+      "name": "probe suite A",
+      "testcases": [
+        {
+          "name": "TC1-exec-ok",
+          "vars": {
+            "__Len__": "11",
+            "__Type__": "Map",
+            "auth.token": "Bearer SECRET123",
+            "venom.datetime": "2026-09-30T16:16:35+02:00",
+            "venom.executable": "/usr/local/bin/venom",
+            "venom.libdir": "",
+            "venom.outputdir": "fx_json",
+            "venom.testcase": "TC1-exec-ok",
+            "venom.testcase.totalSteps": 1,
+            "venom.testsuite": "probe suite A",
+            "venom.testsuite.filename": "suite_a.yml",
+            "venom.testsuite.filepath": "suite_a.yml",
+            "venom.testsuite.name": "probe suite A",
+            "venom.testsuite.shortName": "suite_a",
+            "venom.testsuite.totalSteps": 6,
+            "venom.testsuite.workdir": "/work",
+            "venom.timestamp": "1790777795"
+          },
+          "skip": null,
+          "steps": [
+            {
+              "assertions": [
+                "result.code ShouldEqual 0"
+              ],
+              "script": "echo hello",
+              "type": "exec"
+            }
+          ],
+          "id": "",
+          "skipped": null,
+          "status": "PASS",
+          "duration": 0.003740996,
+          "start": "2026-09-30T16:16:35.447035492+02:00",
+          "end": "2026-09-30T16:16:35.450776491+02:00",
+          "results": [
+            {
+              "name": "exec",
+              "errors": null,
+              "skipped": null,
+              "status": "PASS",
+              "raw": "YXNzZXJ0aW9uczoKICAtIHJlc3VsdC5jb2RlIFNob3VsZEVxdWFsIDAKc2NyaXB0OiBlY2hvIGhlbGxvCnR5cGU6IGV4ZWMK",
+              "interpolated": "YXNzZXJ0aW9uczoKICAtIHJlc3VsdC5jb2RlIFNob3VsZEVxdWFsIDAKc2NyaXB0OiBlY2hvIGhlbGxvCnR5cGU6IGV4ZWMK",
+              "number": 1,
+              "rangedIndex": 0,
+              "rangedEnable": false,
+              "inputVars": {
+                "__Len__": "18",
+                "__Type__": "Map",
+                "auth.token": "Bearer SECRET123",
+                "venom.datetime": "2026-09-30T16:16:35+02:00",
+                "venom.executable": "/usr/local/bin/venom",
+                "venom.libdir": "",
+                "venom.outputdir": "fx_json",
+                "venom.testcase": "TC1-exec-ok",
+                "venom.testcase.totalSteps": "1",
+                "venom.teststep.number": "1",
+                "venom.testsuite": "probe suite A",
+                "venom.testsuite.filename": "suite_a.yml",
+                "venom.testsuite.filepath": "suite_a.yml",
+                "venom.testsuite.name": "probe suite A",
+                "venom.testsuite.shortName": "suite_a",
+                "venom.testsuite.totalSteps": "6",
+                "venom.testsuite.workdir": "/work",
+                "venom.timestamp": "1790777795"
+              },
+              "computedVars": {
+                "__type__": "Result",
+                "result.__Len__": "7",
+                "result.code": "0",
+                "result.err": "",
+                "result.systemerr": "",
+                "result.systemerrjson": "",
+                "result.systemout": "hello",
+                "result.systemoutjson": "",
+                "result.timeseconds": "0.002760225"
+              },
+              "computedInfos": null,
+              "assertionsApplied": {
+                "ok": true,
+                "assertions": [
+                  {
+                    "assertion": "result.code ShouldEqual 0",
+                    "isOK": true
+                  }
+                ]
+              },
+              "retries": 0,
+              "systemout": "hello\n",
+              "systemerr": "\n",
+              "duration": 0.003349584,
+              "start": "2026-09-30T16:16:35.447312199+02:00",
+              "end": "2026-09-30T16:16:35.450661766+02:00"
+            }
+          ]
+        },
+        {
+          "name": "TC2-exec-fails",
+          "vars": {
+            "__Len__": "11",
+            "__Type__": "Map",
+            "auth.token": "Bearer SECRET123",
+            "venom.datetime": "2026-09-30T16:16:35+02:00",
+            "venom.executable": "/usr/local/bin/venom",
+            "venom.libdir": "",
+            "venom.outputdir": "fx_json",
+            "venom.testcase": "TC2-exec-fails",
+            "venom.testcase.totalSteps": 2,
+            "venom.testsuite": "probe suite A",
+            "venom.testsuite.filename": "suite_a.yml",
+            "venom.testsuite.filepath": "suite_a.yml",
+            "venom.testsuite.name": "probe suite A",
+            "venom.testsuite.shortName": "suite_a",
+            "venom.testsuite.totalSteps": 6,
+            "venom.testsuite.workdir": "/work",
+            "venom.timestamp": "1790777795"
+          },
+          "skip": null,
+          "steps": [
+            {
+              "assertions": [
+                "result.code ShouldEqual 0"
+              ],
+              "script": "echo one",
+              "type": "exec"
+            },
+            {
+              "assertions": [
+                "result.systemout ShouldEqual three",
+                "result.code ShouldEqual 0"
+              ],
+              "script": "echo two",
+              "type": "exec"
+            }
+          ],
+          "id": "",
+          "skipped": null,
+          "status": "FAIL",
+          "duration": 0.00741294,
+          "start": "2026-09-30T16:16:35.450784554+02:00",
+          "end": "2026-09-30T16:16:35.458197494+02:00",
+          "results": [
+            {
+              "name": "exec",
+              "errors": null,
+              "skipped": null,
+              "status": "PASS",
+              "raw": "YXNzZXJ0aW9uczoKICAtIHJlc3VsdC5jb2RlIFNob3VsZEVxdWFsIDAKc2NyaXB0OiBlY2hvIG9uZQp0eXBlOiBleGVjCg==",
+              "interpolated": "YXNzZXJ0aW9uczoKICAtIHJlc3VsdC5jb2RlIFNob3VsZEVxdWFsIDAKc2NyaXB0OiBlY2hvIG9uZQp0eXBlOiBleGVjCg==",
+              "number": 1,
+              "rangedIndex": 0,
+              "rangedEnable": false,
+              "inputVars": {
+                "__Len__": "18",
+                "__Type__": "Map",
+                "auth.token": "Bearer SECRET123",
+                "venom.datetime": "2026-09-30T16:16:35+02:00",
+                "venom.executable": "/usr/local/bin/venom",
+                "venom.libdir": "",
+                "venom.outputdir": "fx_json",
+                "venom.testcase": "TC2-exec-fails",
+                "venom.testcase.totalSteps": "2",
+                "venom.teststep.number": "1",
+                "venom.testsuite": "probe suite A",
+                "venom.testsuite.filename": "suite_a.yml",
+                "venom.testsuite.filepath": "suite_a.yml",
+                "venom.testsuite.name": "probe suite A",
+                "venom.testsuite.shortName": "suite_a",
+                "venom.testsuite.totalSteps": "6",
+                "venom.testsuite.workdir": "/work",
+                "venom.timestamp": "1790777795"
+              },
+              "computedVars": {
+                "__type__": "Result",
+                "result.__Len__": "7",
+                "result.code": "0",
+                "result.err": "",
+                "result.systemerr": "",
+                "result.systemerrjson": "",
+                "result.systemout": "one",
+                "result.systemoutjson": "",
+                "result.timeseconds": "0.002480952"
+              },
+              "computedInfos": null,
+              "assertionsApplied": {
+                "ok": true,
+                "assertions": [
+                  {
+                    "assertion": "result.code ShouldEqual 0",
+                    "isOK": true
+                  }
+                ]
+              },
+              "retries": 0,
+              "systemout": "one\n",
+              "systemerr": "\n",
+              "duration": 0.003155908,
+              "start": "2026-09-30T16:16:35.451123099+02:00",
+              "end": "2026-09-30T16:16:35.454278998+02:00"
+            },
+            {
+              "name": "exec",
+              "errors": [
+                {
+                  "value": "Testcase \"TC2 exec fails\", step #2-0: Assertion \"result.systemout ShouldEqual three\" failed. expected: three  got: two (suite_a.yml:20)"
+                }
+              ],
+              "skipped": null,
+              "status": "FAIL",
+              "raw": "YXNzZXJ0aW9uczoKICAtIHJlc3VsdC5zeXN0ZW1vdXQgU2hvdWxkRXF1YWwgdGhyZWUKICAtIHJlc3VsdC5jb2RlIFNob3VsZEVxdWFsIDAKc2NyaXB0OiBlY2hvIHR3bwp0eXBlOiBleGVjCg==",
+              "interpolated": "YXNzZXJ0aW9uczoKICAtIHJlc3VsdC5zeXN0ZW1vdXQgU2hvdWxkRXF1YWwgdGhyZWUKICAtIHJlc3VsdC5jb2RlIFNob3VsZEVxdWFsIDAKc2NyaXB0OiBlY2hvIHR3bwp0eXBlOiBleGVjCg==",
+              "number": 2,
+              "rangedIndex": 0,
+              "rangedEnable": false,
+              "inputVars": {
+                "__Len__": "18",
+                "__Type__": "Map",
+                "auth.token": "Bearer SECRET123",
+                "venom.datetime": "2026-09-30T16:16:35+02:00",
+                "venom.executable": "/usr/local/bin/venom",
+                "venom.libdir": "",
+                "venom.outputdir": "fx_json",
+                "venom.testcase": "TC2-exec-fails",
+                "venom.testcase.totalSteps": "2",
+                "venom.teststep.number": "2",
+                "venom.testsuite": "probe suite A",
+                "venom.testsuite.filename": "suite_a.yml",
+                "venom.testsuite.filepath": "suite_a.yml",
+                "venom.testsuite.name": "probe suite A",
+                "venom.testsuite.shortName": "suite_a",
+                "venom.testsuite.totalSteps": "6",
+                "venom.testsuite.workdir": "/work",
+                "venom.timestamp": "1790777795"
+              },
+              "computedVars": {
+                "__type__": "Result",
+                "result.__Len__": "7",
+                "result.code": "0",
+                "result.err": "",
+                "result.systemerr": "",
+                "result.systemerrjson": "",
+                "result.systemout": "two",
+                "result.systemoutjson": "",
+                "result.timeseconds": "0.002452955"
+              },
+              "computedInfos": null,
+              "assertionsApplied": {
+                "ok": false,
+                "assertions": [
+                  {
+                    "assertion": "result.systemout ShouldEqual three",
+                    "isOK": false
+                  },
+                  {
+                    "assertion": "result.code ShouldEqual 0",
+                    "isOK": true
+                  }
+                ]
+              },
+              "retries": 1,
+              "systemout": "two\n",
+              "systemerr": "\n",
+              "duration": 0.003336736,
+              "start": "2026-09-30T16:16:35.454736449+02:00",
+              "end": "2026-09-30T16:16:35.45807318+02:00"
+            }
+          ]
+        },
+        {
+          "name": "TC3-http",
+          "vars": {
+            "__Len__": "11",
+            "__Type__": "Map",
+            "auth.token": "Bearer SECRET123",
+            "venom.datetime": "2026-09-30T16:16:35+02:00",
+            "venom.executable": "/usr/local/bin/venom",
+            "venom.libdir": "",
+            "venom.outputdir": "fx_json",
+            "venom.testcase": "TC3-http",
+            "venom.testcase.totalSteps": 1,
+            "venom.testsuite": "probe suite A",
+            "venom.testsuite.filename": "suite_a.yml",
+            "venom.testsuite.filepath": "suite_a.yml",
+            "venom.testsuite.name": "probe suite A",
+            "venom.testsuite.shortName": "suite_a",
+            "venom.testsuite.totalSteps": 6,
+            "venom.testsuite.workdir": "/work",
+            "venom.timestamp": "1790777795"
+          },
+          "skip": null,
+          "steps": [
+            {
+              "assertions": [
+                "result.statuscode ShouldEqual 200"
+              ],
+              "body": "{\"k\":\"v\"}",
+              "headers": {
+                "Authorization": "Bearer SECRET123",
+                "Content-Type": "application/json"
+              },
+              "method": "POST",
+              "type": "http",
+              "url": "http://127.0.0.1:18765/x?a=1"
+            }
+          ],
+          "id": "",
+          "skipped": null,
+          "status": "FAIL",
+          "duration": 0.003372079,
+          "start": "2026-09-30T16:16:35.458209714+02:00",
+          "end": "2026-09-30T16:16:35.461581796+02:00",
+          "results": [
+            {
+              "name": "http",
+              "errors": [
+                {
+                  "value": "Testcase \"TC3 http\", step #1-0: Assertion \"result.statuscode ShouldEqual 200\" failed. expected: 200  got: 501 (suite_a.yml:0)"
+                }
+              ],
+              "skipped": null,
+              "status": "FAIL",
+              "raw": "YXNzZXJ0aW9uczoKICAtIHJlc3VsdC5zdGF0dXNjb2RlIFNob3VsZEVxdWFsIDIwMApib2R5OiAneyJrIjoidiJ9JwpoZWFkZXJzOgogIEF1dGhvcml6YXRpb246IEJlYXJlciBTRUNSRVQxMjMKICBDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24KbWV0aG9kOiBQT1NUCnR5cGU6IGh0dHAKdXJsOiBodHRwOi8vMTI3LjAuMC4xOjE4NzY1L3g/YT0xCg==",
+              "interpolated": "YXNzZXJ0aW9uczoKICAtIHJlc3VsdC5zdGF0dXNjb2RlIFNob3VsZEVxdWFsIDIwMApib2R5OiAneyJrIjoidiJ9JwpoZWFkZXJzOgogIEF1dGhvcml6YXRpb246IEJlYXJlciBTRUNSRVQxMjMKICBDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24KbWV0aG9kOiBQT1NUCnR5cGU6IGh0dHAKdXJsOiBodHRwOi8vMTI3LjAuMC4xOjE4NzY1L3g/YT0xCg==",
+              "number": 1,
+              "rangedIndex": 0,
+              "rangedEnable": false,
+              "inputVars": {
+                "__Len__": "18",
+                "__Type__": "Map",
+                "auth.token": "Bearer SECRET123",
+                "venom.datetime": "2026-09-30T16:16:35+02:00",
+                "venom.executable": "/usr/local/bin/venom",
+                "venom.libdir": "",
+                "venom.outputdir": "fx_json",
+                "venom.testcase": "TC3-http",
+                "venom.testcase.totalSteps": "1",
+                "venom.teststep.number": "1",
+                "venom.testsuite": "probe suite A",
+                "venom.testsuite.filename": "suite_a.yml",
+                "venom.testsuite.filepath": "suite_a.yml",
+                "venom.testsuite.name": "probe suite A",
+                "venom.testsuite.shortName": "suite_a",
+                "venom.testsuite.totalSteps": "6",
+                "venom.testsuite.workdir": "/work",
+                "venom.timestamp": "1790777795"
+              },
+              "computedVars": {
+                "__type__": "Result",
+                "result.__Len__": "8",
+                "result.body": "\u003c!DOCTYPE HTML\u003e\n\u003chtml lang=\"en\"\u003e\n    \u003chead\u003e\n        \u003cmeta charset=\"utf-8\"\u003e\n        \u003ctitle\u003eError response\u003c/title\u003e\n    \u003c/head\u003e\n    \u003cbody\u003e\n        \u003ch1\u003eError response\u003c/h1\u003e\n        \u003cp\u003eError code: 501\u003c/p\u003e\n        \u003cp\u003eMessage: Unsupported method ('POST').\u003c/p\u003e\n        \u003cp\u003eError code explanation: 501 - Server does not support this operation.\u003c/p\u003e\n    \u003c/body\u003e\n\u003c/html\u003e\n",
+                "result.bodyjson": "",
+                "result.err": "",
+                "result.headers": "map[Connection:close Content-Length:357 Content-Type:text/html;charset=utf-8 Date:Wed, 30 Sep 2026 14:16:35 GMT Server:SimpleHTTP/0.6 Python/3.12.3]",
+                "result.headers.Connection": "close",
+                "result.headers.Content-Length": "357",
+                "result.headers.Content-Type": "text/html;charset=utf-8",
+                "result.headers.Date": "Wed, 30 Sep 2026 14:16:35 GMT",
+                "result.headers.Server": "SimpleHTTP/0.6 Python/3.12.3",
+                "result.headers.__Len__": "5",
+                "result.headers.__Type__": "Map",
+                "result.request": "{POST http://127.0.0.1:18765/x?a=1 map[Authorization:[Bearer SECRET123] Content-Type:[application/json]] {\"k\":\"v\"} map[] map[]}",
+                "result.request.__Len__": "6",
+                "result.request.__Type__": "HTTPRequest",
+                "result.request.body": "{\"k\":\"v\"}",
+                "result.request.form": "map[]",
+                "result.request.form.__Len__": "0",
+                "result.request.form.__Type__": "Map",
+                "result.request.header": "map[Authorization:[Bearer SECRET123] Content-Type:[application/json]]",
+                "result.request.header.Authorization": "[Bearer SECRET123]",
+                "result.request.header.Authorization.Authorization0": "Bearer SECRET123",
+                "result.request.header.Authorization.__Len__": "1",
+                "result.request.header.Authorization.__Type__": "Array",
+                "result.request.header.Content-Type": "[application/json]",
+                "result.request.header.Content-Type.Content-Type0": "application/json",
+                "result.request.header.Content-Type.__Len__": "1",
+                "result.request.header.Content-Type.__Type__": "Array",
+                "result.request.header.__Len__": "2",
+                "result.request.header.__Type__": "Map",
+                "result.request.method": "POST",
+                "result.request.post_form": "map[]",
+                "result.request.post_form.__Len__": "0",
+                "result.request.post_form.__Type__": "Map",
+                "result.request.url": "http://127.0.0.1:18765/x?a=1",
+                "result.statuscode": "501",
+                "result.systemout": "===== Result Info =====\n\t\tMethod:     POST\n\t\tURL:        http://127.0.0.1:18765/x?a=1\n\t\tBody:       \u003c!DOCTYPE HTML\u003e\n\u003chtml lang=\"en\"\u003e\n    \u003chead\u003e\n        \u003cmeta charset=\"utf-8\"\u003e\n        \u003ctitle\u003eError response\u003c/title\u003e\n    \u003c/head\u003e\n    \u003cbody\u003e\n        \u003ch1\u003eError response\u003c/h1\u003e\n        \u003cp\u003eError code: 501\u003c/p\u003e\n        \u003cp\u003eMessage: Unsupported method ('POST').\u003c/p\u003e\n        \u003cp\u003eError code explanation: 501 - Server does not support this operation.\u003c/p\u003e\n    \u003c/body\u003e\n\u003c/html\u003e\n\n\t\t======================",
+                "result.timeseconds": "0.00173601"
+              },
+              "computedInfos": null,
+              "assertionsApplied": {
+                "ok": false,
+                "assertions": [
+                  {
+                    "assertion": "result.statuscode ShouldEqual 200",
+                    "isOK": false
+                  }
+                ]
+              },
+              "retries": 1,
+              "systemout": "===== Result Info =====\n\t\tMethod:     POST\n\t\tURL:        http://127.0.0.1:18765/x?a=1\n\t\tBody:       \u003c!DOCTYPE HTML\u003e\n\u003chtml lang=\"en\"\u003e\n    \u003chead\u003e\n        \u003cmeta charset=\"utf-8\"\u003e\n        \u003ctitle\u003eError response\u003c/title\u003e\n    \u003c/head\u003e\n    \u003cbody\u003e\n        \u003ch1\u003eError response\u003c/h1\u003e\n        \u003cp\u003eError code: 501\u003c/p\u003e\n        \u003cp\u003eMessage: Unsupported method ('POST').\u003c/p\u003e\n        \u003cp\u003eError code explanation: 501 - Server does not support this operation.\u003c/p\u003e\n    \u003c/body\u003e\n\u003c/html\u003e\n\n\t\t======================\n",
+              "systemerr": "\n",
+              "duration": 0.002694361,
+              "start": "2026-09-30T16:16:35.458664049+02:00",
+              "end": "2026-09-30T16:16:35.461358402+02:00"
+            }
+          ]
+        },
+        {
+          "name": "TC4-skipped",
+          "vars": {
+            "__Len__": "11",
+            "__Type__": "Map",
+            "auth.token": "Bearer SECRET123",
+            "venom.datetime": "2026-09-30T16:16:35+02:00",
+            "venom.executable": "/usr/local/bin/venom",
+            "venom.libdir": "",
+            "venom.outputdir": "fx_json",
+            "venom.testcase": "TC4-skipped",
+            "venom.testcase.totalSteps": 1,
+            "venom.testsuite": "probe suite A",
+            "venom.testsuite.filename": "suite_a.yml",
+            "venom.testsuite.filepath": "suite_a.yml",
+            "venom.testsuite.name": "probe suite A",
+            "venom.testsuite.shortName": "suite_a",
+            "venom.testsuite.totalSteps": 6,
+            "venom.testsuite.workdir": "/work",
+            "venom.timestamp": "1790777795"
+          },
+          "skip": [
+            "1 ShouldEqual 2"
+          ],
+          "steps": [
+            {
+              "script": "echo never",
+              "type": "exec"
+            }
+          ],
+          "id": "",
+          "skipped": [
+            {
+              "value": "skipping testcase \"TC4 skipped\": expected: 2  got: \u003cnil\u003e"
+            }
+          ],
+          "status": "SKIP",
+          "duration": 0.00006225,
+          "start": "2026-09-30T16:16:35.461590997+02:00",
+          "end": "2026-09-30T16:16:35.461653247+02:00",
+          "results": null
+        },
+        {
+          "name": "TC5-loop",
+          "vars": {
+            "__Len__": "11",
+            "__Type__": "Map",
+            "auth.token": "Bearer SECRET123",
+            "venom.datetime": "2026-09-30T16:16:35+02:00",
+            "venom.executable": "/usr/local/bin/venom",
+            "venom.libdir": "",
+            "venom.outputdir": "fx_json",
+            "venom.testcase": "TC5-loop",
+            "venom.testcase.totalSteps": 1,
+            "venom.testsuite": "probe suite A",
+            "venom.testsuite.filename": "suite_a.yml",
+            "venom.testsuite.filepath": "suite_a.yml",
+            "venom.testsuite.name": "probe suite A",
+            "venom.testsuite.shortName": "suite_a",
+            "venom.testsuite.totalSteps": 6,
+            "venom.testsuite.workdir": "/work",
+            "venom.timestamp": "1790777795"
+          },
+          "skip": null,
+          "steps": [
+            {
+              "assertions": [
+                "result.systemout ShouldEqual a"
+              ],
+              "range": [
+                "a",
+                "b"
+              ],
+              "script": "echo \"{{.value}}\"",
+              "type": "exec"
+            }
+          ],
+          "id": "",
+          "skipped": null,
+          "status": "FAIL",
+          "duration": 0.0074574,
+          "start": "2026-09-30T16:16:35.461658559+02:00",
+          "end": "2026-09-30T16:16:35.46911596+02:00",
+          "results": [
+            {
+              "name": "exec (range=0)",
+              "errors": null,
+              "skipped": null,
+              "status": "PASS",
+              "raw": "YXNzZXJ0aW9uczoKICAtIHJlc3VsdC5zeXN0ZW1vdXQgU2hvdWxkRXF1YWwgYQpyYW5nZToKICAtIGEKICAtIGIKc2NyaXB0OiBlY2hvICJ7ey52YWx1ZX19Igp0eXBlOiBleGVjCg==",
+              "interpolated": "YXNzZXJ0aW9uczoKICAtIHJlc3VsdC5zeXN0ZW1vdXQgU2hvdWxkRXF1YWwgYQpyYW5nZToKICAtIGEKICAtIGIKc2NyaXB0OiBlY2hvICJhIgp0eXBlOiBleGVjCg==",
+              "number": 1,
+              "rangedIndex": 0,
+              "rangedEnable": true,
+              "inputVars": {
+                "__Len__": "21",
+                "__Type__": "Map",
+                "auth.token": "Bearer SECRET123",
+                "index": "0",
+                "key": "0",
+                "value": "a",
+                "venom.datetime": "2026-09-30T16:16:35+02:00",
+                "venom.executable": "/usr/local/bin/venom",
+                "venom.libdir": "",
+                "venom.outputdir": "fx_json",
+                "venom.testcase": "TC5-loop",
+                "venom.testcase.totalSteps": "1",
+                "venom.teststep.number": "1",
+                "venom.testsuite": "probe suite A",
+                "venom.testsuite.filename": "suite_a.yml",
+                "venom.testsuite.filepath": "suite_a.yml",
+                "venom.testsuite.name": "probe suite A",
+                "venom.testsuite.shortName": "suite_a",
+                "venom.testsuite.totalSteps": "6",
+                "venom.testsuite.workdir": "/work",
+                "venom.timestamp": "1790777795"
+              },
+              "computedVars": {
+                "__type__": "Result",
+                "result.__Len__": "7",
+                "result.code": "0",
+                "result.err": "",
+                "result.systemerr": "",
+                "result.systemerrjson": "",
+                "result.systemout": "a",
+                "result.systemoutjson": "",
+                "result.timeseconds": "0.002393086"
+              },
+              "computedInfos": null,
+              "assertionsApplied": {
+                "ok": true,
+                "assertions": [
+                  {
+                    "assertion": "result.systemout ShouldEqual a",
+                    "isOK": true
+                  }
+                ]
+              },
+              "retries": 0,
+              "systemout": "a\n",
+              "systemerr": "\n",
+              "duration": 0.00313795,
+              "start": "2026-09-30T16:16:35.462240341+02:00",
+              "end": "2026-09-30T16:16:35.465378291+02:00"
+            },
+            {
+              "name": "exec (range=1)",
+              "errors": [
+                {
+                  "value": "Testcase \"TC5 loop\", step #1-1: Assertion \"result.systemout ShouldEqual a\" failed. expected: a  got: b (suite_a.yml:45)"
+                }
+              ],
+              "skipped": null,
+              "status": "FAIL",
+              "raw": "YXNzZXJ0aW9uczoKICAtIHJlc3VsdC5zeXN0ZW1vdXQgU2hvdWxkRXF1YWwgYQpyYW5nZToKICAtIGEKICAtIGIKc2NyaXB0OiBlY2hvICJ7ey52YWx1ZX19Igp0eXBlOiBleGVjCg==",
+              "interpolated": "YXNzZXJ0aW9uczoKICAtIHJlc3VsdC5zeXN0ZW1vdXQgU2hvdWxkRXF1YWwgYQpyYW5nZToKICAtIGEKICAtIGIKc2NyaXB0OiBlY2hvICJiIgp0eXBlOiBleGVjCg==",
+              "number": 1,
+              "rangedIndex": 1,
+              "rangedEnable": true,
+              "inputVars": {
+                "__Len__": "21",
+                "__Type__": "Map",
+                "auth.token": "Bearer SECRET123",
+                "index": "1",
+                "key": "1",
+                "value": "b",
+                "venom.datetime": "2026-09-30T16:16:35+02:00",
+                "venom.executable": "/usr/local/bin/venom",
+                "venom.libdir": "",
+                "venom.outputdir": "fx_json",
+                "venom.testcase": "TC5-loop",
+                "venom.testcase.totalSteps": "1",
+                "venom.teststep.number": "1",
+                "venom.testsuite": "probe suite A",
+                "venom.testsuite.filename": "suite_a.yml",
+                "venom.testsuite.filepath": "suite_a.yml",
+                "venom.testsuite.name": "probe suite A",
+                "venom.testsuite.shortName": "suite_a",
+                "venom.testsuite.totalSteps": "6",
+                "venom.testsuite.workdir": "/work",
+                "venom.timestamp": "1790777795"
+              },
+              "computedVars": {
+                "__type__": "Result",
+                "result.__Len__": "7",
+                "result.code": "0",
+                "result.err": "",
+                "result.systemerr": "",
+                "result.systemerrjson": "",
+                "result.systemout": "b",
+                "result.systemoutjson": "",
+                "result.timeseconds": "0.002195955"
+              },
+              "computedInfos": null,
+              "assertionsApplied": {
+                "ok": false,
+                "assertions": [
+                  {
+                    "assertion": "result.systemout ShouldEqual a",
+                    "isOK": false
+                  }
+                ]
+              },
+              "retries": 1,
+              "systemout": "b\n",
+              "systemerr": "\n",
+              "duration": 0.002887493,
+              "start": "2026-09-30T16:16:35.466088341+02:00",
+              "end": "2026-09-30T16:16:35.468975807+02:00"
+            }
+          ]
+        }
+      ],
+      "vars": {
+        "__Len__": "11",
+        "__Type__": "Map",
+        "auth.token": "Bearer SECRET123",
+        "venom.datetime": "2026-09-30T16:16:35+02:00",
+        "venom.executable": "/usr/local/bin/venom",
+        "venom.libdir": "",
+        "venom.outputdir": "fx_json",
+        "venom.testsuite": "probe suite A",
+        "venom.testsuite.filename": "suite_a.yml",
+        "venom.testsuite.filepath": "suite_a.yml",
+        "venom.testsuite.name": "probe suite A",
+        "venom.testsuite.shortName": "suite_a",
+        "venom.testsuite.totalSteps": 6,
+        "venom.testsuite.workdir": "/work",
+        "venom.timestamp": "1790777795"
+      },
+      "secrets": null,
+      "shortname": "suite_a",
+      "filename": "suite_a.yml",
+      "filepath": "suite_a.yml",
+      "computed_vars": {},
+      "workdir": "/work",
+      "status": "FAIL",
+      "duration": 0.196128681,
+      "start": "2026-09-30T16:16:35.446857293+02:00",
+      "end": "2026-09-30T16:16:35.642985955+02:00",
+      "nbTestcasesFail": 3,
+      "nbTestcasesPass": 1,
+      "nbTestcasesSkip": 1
+    }
+  ],
+  "status": "FAIL",
+  "nbTestsuitesFail": 1,
+  "nbTestsuitesPass": 0,
+  "nbTestsuitesSkip": 0,
+  "duration": 0.196129758,
+  "start": "2026-09-30T16:16:35.446856691+02:00",
+  "end": "2026-09-30T16:16:35.642986464+02:00"
+}

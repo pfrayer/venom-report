@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites>
+  <testsuite errors="3" name="probe suite A" package="suite_a.yml" skipped="1" tests="5" time="0.195554">
+    <testcase classname="suite_a.yml" name="TC1-exec-ok" time="0.004470075">
+      <system-out><![CDATA[hello
+]]></system-out>
+      <system-err><![CDATA[
+]]></system-err>
+    </testcase>
+    <testcase classname="suite_a.yml" name="TC2-exec-fails" time="0.007872822">
+      <error><![CDATA[Testcase "TC2 exec fails", step #2-0: Assertion "result.systemout ShouldEqual three" failed. expected: three  got: two (suite_a.yml:20)]]></error>
+      <system-out><![CDATA[one
+two
+]]></system-out>
+      <system-err><![CDATA[
+
+]]></system-err>
+    </testcase>
+    <testcase classname="suite_a.yml" name="TC3-http" time="0.003838932">
+      <error><![CDATA[Testcase "TC3 http", step #1-0: Assertion "result.statuscode ShouldEqual 200" failed. expected: 200  got: 501 (suite_a.yml:0)]]></error>
+      <system-out><![CDATA[===== Result Info =====
+		Method:     POST
+		URL:        http://127.0.0.1:18765/x?a=1
+		Body:       <!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Error response</title>
+    </head>
+    <body>
+        <h1>Error response</h1>
+        <p>Error code: 501</p>
+        <p>Message: Unsupported method ('POST').</p>
+        <p>Error code explanation: 501 - Server does not support this operation.</p>
+    </body>
+</html>
+
+		======================
+]]></system-out>
+      <system-err><![CDATA[
+]]></system-err>
+    </testcase>
+    <testcase classname="suite_a.yml" name="TC4-skipped" time="6.4568e-05">
+      <skipped><![CDATA[skipping testcase "TC4 skipped": expected: 2  got: <nil>]]></skipped>
+      <system-out></system-out>
+      <system-err></system-err>
+    </testcase>
+    <testcase classname="suite_a.yml" name="TC5-loop" time="0.008248119">
+      <error><![CDATA[Testcase "TC5 loop", step #1-1: Assertion "result.systemout ShouldEqual a" failed. expected: a  got: b (suite_a.yml:45)]]></error>
+      <system-out><![CDATA[a
+b
+]]></system-out>
+      <system-err><![CDATA[
+
+]]></system-err>
+    </testcase>
+  </testsuite>
+</testsuites>

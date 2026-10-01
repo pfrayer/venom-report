@@ -1,0 +1,47 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "venom-report"
+dynamic = ["version"]
+description = "A static HTML report for any venom run, like coverage html."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "Pierre Frayer" }]
+keywords = ["venom", "testing", "report", "html", "junit"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Software Development :: Testing",
+]
+
+[project.optional-dependencies]
+yaml = ["pyyaml"]
+
+[project.scripts]
+venom-report = "venom_report.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/pfrayer/venom-report"
+Issues = "https://github.com/pfrayer/venom-report/issues"
+
+[dependency-groups]
+dev = ["pytest", "pyyaml", "ruff"]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "tests", "README.md", "LICENSE"]
+
+[tool.ruff]
+line-length = 120
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,45 @@
+name: probe suite A
+vars:
+  auth.token: "Bearer SECRET123"
+testcases:
+- name: TC1 exec ok
+  steps:
+  - type: exec
+    script: echo hello
+    assertions:
+    - result.code ShouldEqual 0
+- name: TC2 exec fails
+  steps:
+  - type: exec
+    script: echo one
+    assertions:
+    - result.code ShouldEqual 0
+  - type: exec
+    script: echo two
+    assertions:
+    - result.systemout ShouldEqual three
+    - result.code ShouldEqual 0
+- name: TC3 http
+  steps:
+  - type: http
+    method: POST
+    url: http://127.0.0.1:18765/x?a=1
+    headers:
+      Authorization: "{{.auth.token}}"
+      Content-Type: application/json
+    body: '{"k":"v"}'
+    assertions:
+    - result.statuscode ShouldEqual 200
+- name: TC4 skipped
+  skip:
+  - 1 ShouldEqual 2
+  steps:
+  - type: exec
+    script: echo never
+- name: TC5 loop
+  steps:
+  - type: exec
+    script: echo "{{.value}}"
+    range: [a, b]
+    assertions:
+    - result.systemout ShouldEqual a
