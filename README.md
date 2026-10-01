@@ -1,8 +1,20 @@
 # venom-report
 
+[![PyPI](https://img.shields.io/pypi/v/venom-report)](https://pypi.org/project/venom-report/)
+[![Python](https://img.shields.io/pypi/pyversions/venom-report)](https://pypi.org/project/venom-report/)
+[![CI](https://github.com/pfrayer/venom-report/actions/workflows/ci.yml/badge.svg)](https://github.com/pfrayer/venom-report/actions/workflows/ci.yml)
+[![License](https://img.shields.io/pypi/l/venom-report)](LICENSE)
+
 A static HTML report for any [venom](https://github.com/ovh/venom) run, like `coverage html`:
 every suite, testcase and step, the HTTP call made (method, URL, headers, body), the
 response, the assertions (the failing one in red), and why a testcase was skipped.
+
+**[Live demo →](https://pfrayer.github.io/venom-report/)**
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/pfrayer/venom-report/main/docs/screenshot-dark.png">
+  <img alt="venom-report: a POST step with its JSON request and response, a failing testcase listed on top" src="https://raw.githubusercontent.com/pfrayer/venom-report/main/docs/screenshot-light.png">
+</picture>
 
 ```sh
 pipx install venom-report          # or: uv tool install venom-report
