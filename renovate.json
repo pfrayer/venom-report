@@ -1,6 +1,28 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    "schedule:earlyMondays"
+  ],
+  "timezone": "Europe/Paris",
+  "packageRules": [
+    {
+      "description": "Bring action updates in one PR",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "groupName": "GitHub Actions"
+    },
+    {
+      "description": "Bring minor and patch Python dependency updates in one PR",
+      "matchManagers": [
+        "pep621"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "Python dependencies (non-major)"
+    }
   ]
 }
